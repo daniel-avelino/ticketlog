@@ -1,8 +1,6 @@
 package com.ticketlogapi.config;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -37,9 +35,11 @@ public class test implements CommandLineRunner {
 
 		estadoRep.saveAll(Arrays.asList(estado1, estado2, estado3));
 
-		Cidade cidade1 = new Cidade(null, "Balneário Cambóriu", estado1);
+		Cidade cidade1 = new Cidade(null, "Balneário Cambóriu", estado1, 10000L);
 
-		cidadeRep.save(cidade1);
+		Cidade cidade2 = new Cidade(null, "Balneário Cambóriu", estado1, 150000L);
+
+		cidadeRep.saveAll(Arrays.asList(cidade1, cidade2));
 
 		RestTemplate template = new RestTemplate();
 

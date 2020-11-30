@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "tb_cidades")
 public class Cidade implements Serializable {
@@ -21,16 +23,27 @@ public class Cidade implements Serializable {
 
 	private String Cidade;
 
+	private Long Populacao;
+
 	@ManyToOne
 	private Estado estado;
 
 	public Cidade() {
 	}
 
-	public Cidade(Integer id, String cidade, Estado estado) {
+	public Cidade(Integer id, String cidade, Estado estado, Long populacao) {
 		Id = id;
 		Cidade = cidade;
 		this.estado = estado;
+		Populacao = populacao;
+	}
+
+	public Long getPopulacao() {
+		return Populacao;
+	}
+
+	public void setPopulacao(Long populacao) {
+		Populacao = populacao;
 	}
 
 	public Integer getId() {

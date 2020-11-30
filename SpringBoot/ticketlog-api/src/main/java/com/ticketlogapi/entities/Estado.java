@@ -1,7 +1,7 @@
 package com.ticketlogapi.entities;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_estados")
@@ -23,8 +25,9 @@ public class Estado implements Serializable {
 
 	private String estado;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "estado", cascade = CascadeType.ALL)
-	private List<Cidade> cidades;
+	private Set<Cidade> cidades;
 
 	/*
 	 * public enum Estados { SantaCatarina("Santa Catarina"),
@@ -65,12 +68,15 @@ public class Estado implements Serializable {
 		this.estado = estado;
 	}
 
+	public Set<Cidade> getCidades() {
+		return cidades;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((Id == null) ? 0 : Id.hashCode());
-		result = prime * result + ((cidades == null) ? 0 : cidades.hashCode());
 		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
 		return result;
 	}
@@ -89,12 +95,10 @@ public class Estado implements Serializable {
 				return false;
 		} else if (!Id.equals(other.Id))
 			return false;
-		if (cidades == null) {
-			if (other.cidades != null)
+		if (estado == null) {
+			if (other.estado != null)
 				return false;
-		} else if (!cidades.equals(other.cidades))
-			return false;
-		if (estado != other.estado)
+		} else if (!estado.equals(other.estado))
 			return false;
 		return true;
 	}
