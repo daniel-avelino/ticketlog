@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ticketlogapi.entities.Cidade;
 import com.ticketlogapi.entities.Estado;
 import com.ticketlogapi.services.CidadeService;
+import com.ticketlogapi.services.EstadoService;
 
 @RestController
 @RequestMapping(path = "/cidades")
@@ -24,6 +25,9 @@ public class CidadeController {
 
 	@Autowired
 	private CidadeService service;
+
+	@Autowired
+	private EstadoService estadoService;
 
 	@GetMapping
 	public ResponseEntity<List<Cidade>> findAll() {
@@ -38,6 +42,7 @@ public class CidadeController {
 	@PostMapping
 	public ResponseEntity<Cidade> addCidade(@RequestBody Cidade cidade) {
 		service.addCidade(cidade);
+		estadoService.sumPopulacao(cidade.getEstadoId());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 

@@ -23,7 +23,7 @@ public class Cidade implements Serializable {
 
 	private String Cidade;
 
-	private Long Populacao;
+	private Integer Populacao;
 
 	@ManyToOne
 	private Estado estado;
@@ -31,18 +31,18 @@ public class Cidade implements Serializable {
 	public Cidade() {
 	}
 
-	public Cidade(Integer id, String cidade, Estado estado, Long populacao) {
+	public Cidade(Integer id, String cidade, Estado estado, int populacao) {
 		Id = id;
 		Cidade = cidade;
 		this.estado = estado;
 		Populacao = populacao;
 	}
 
-	public Long getPopulacao() {
+	public int getPopulacao() {
 		return Populacao;
 	}
 
-	public void setPopulacao(Long populacao) {
+	public void setPopulacao(int populacao) {
 		Populacao = populacao;
 	}
 
@@ -64,6 +64,10 @@ public class Cidade implements Serializable {
 
 	public Estado getEstado() {
 		return estado;
+	}
+
+	public Integer getEstadoId() {
+		return estado.getId();
 	}
 
 	public void setEstado(Estado estado) {

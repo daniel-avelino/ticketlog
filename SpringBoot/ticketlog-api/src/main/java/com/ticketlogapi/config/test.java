@@ -1,6 +1,10 @@
 package com.ticketlogapi.config;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -26,27 +30,31 @@ public class test implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-
-		Estado estado1 = new Estado(null, "Santa Catarina");
-
-		Estado estado2 = new Estado(null, "Rio Grande do Sul");
-
-		Estado estado3 = new Estado(null, "Paraná");
-
-		estadoRep.saveAll(Arrays.asList(estado1, estado2, estado3));
-
-		Cidade cidade1 = new Cidade(null, "Balneário Cambóriu", estado1, 10000L);
-
-		Cidade cidade2 = new Cidade(null, "Balneário Cambóriu", estado1, 150000L);
-
-		cidadeRep.saveAll(Arrays.asList(cidade1, cidade2));
-
-		RestTemplate template = new RestTemplate();
-
-		String uri = "https://economia.awesomeapi.com.br/json/USD-BRL/";
-
-		usd[] dollar = template.getForObject(uri, usd[].class);
-
+		/*
+		 * Estado estado1 = new Estado(null, "Santa Catarina");
+		 * 
+		 * Estado estado2 = new Estado(null, "Rio Grande do Sul");
+		 * 
+		 * Estado estado3 = new Estado(null, "Paraná");
+		 * 
+		 * estadoRep.saveAll(Arrays.asList(estado1, estado2, estado3));
+		 * 
+		 * Cidade cidade1 = new Cidade(null, "Balneário Cambóriu", estado1, 10000);
+		 * 
+		 * Cidade cidade2 = new Cidade(null, "Joinville", estado1, 150000);
+		 * 
+		 * Cidade cidade3 = new Cidade(null, "Londrina", estado3, 77777);
+		 * 
+		 * Cidade cidade4 = new Cidade(null, "Porto Alegre", estado2, 99999);
+		 * 
+		 * cidadeRep.saveAll(Arrays.asList(cidade1, cidade2, cidade3, cidade4));
+		 * 
+		 * RestTemplate template = new RestTemplate();
+		 * 
+		 * String uri = "https://economia.awesomeapi.com.br/json/USD-BRL/";
+		 * 
+		 * usd[] dollar = template.getForObject(uri, usd[].class);
+		 */
 	}
 
 }

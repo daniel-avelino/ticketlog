@@ -2,11 +2,16 @@ package com.ticketlogapi.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ticketlogapi.Repositories.CidadeRepository;
 import com.ticketlogapi.Repositories.EstadoRepository;
+import com.ticketlogapi.entities.Cidade;
 import com.ticketlogapi.entities.Estado;
 
 @Service
@@ -14,6 +19,9 @@ public class EstadoService {
 
 	@Autowired
 	private EstadoRepository repository;
+
+	@Autowired
+	private CidadeRepository cidadeRepository;
 
 	public List<Estado> findAll() {
 		return repository.findAll();
@@ -30,4 +38,28 @@ public class EstadoService {
 	public void deleteEstado(int id) {
 		repository.deleteById(id);
 	}
+
+	public void sumPopulacao(int id) {
+		Estado estado = repository.findById(id).orElseThrow(() -> new EntityNotFoundException());
+		List<Cidade> list = cidadeRepository.findAll();
+		int totalPopulacao = list.stream().filter(p -> p.getEstadoId().equals(id))
+				.collect(Collectors.summingInt(Cidade::getPopulacao));
+		System.out.println(totalPopulacao);
+		estado.setPopulacao(totalPopulacao);
+		repository.save(estado);
+
+	}
+
 }
+
+/*
+ * Map<String, Double> boulevard = vendas.stream().filter(p ->
+ * p.getId().equals("6C237294")) .collect(Collectors.groupingBy(Vendas::getDate,
+ * Collectors.summingDouble(Vendas::getSales)));
+ * 
+ * for (Entry<String, Double> d : boulevard.entrySet()) { Double value =
+ * d.getValue(); String date = d.getKey(); b.add(new Vendas(date, value)); }
+ * 
+ * totalB = vendas.stream().filter(p -> p.getId().equals("6C237294"))
+ * .collect(Collectors.summingDouble(Vendas::getSales)); } }
+ */

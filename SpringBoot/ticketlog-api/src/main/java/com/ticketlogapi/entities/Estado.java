@@ -29,6 +29,8 @@ public class Estado implements Serializable {
 	@OneToMany(mappedBy = "estado", cascade = CascadeType.ALL)
 	private Set<Cidade> cidades;
 
+	private Integer Populacao;
+
 	/*
 	 * public enum Estados { SantaCatarina("Santa Catarina"),
 	 * RioGrandeDoSul("Rio Grande do Sul"), Parana("Paraná");
@@ -70,6 +72,14 @@ public class Estado implements Serializable {
 
 	public Set<Cidade> getCidades() {
 		return cidades;
+	}
+
+	public Integer getPopulacao() {
+		return Populacao;
+	}
+
+	public void setPopulacao(Integer populacao) {
+		Populacao = populacao;
 	}
 
 	@Override
