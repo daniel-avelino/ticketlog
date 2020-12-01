@@ -15,7 +15,7 @@ import com.ticketlogapi.entities.Estado;
 import com.ticketlogapi.services.usd;
 
 @Configuration
-@Profile("test")
+@Profile("prod")
 public class test implements CommandLineRunner {
 
 	@Autowired
@@ -47,7 +47,6 @@ public class test implements CommandLineRunner {
 
 		usd[] dollar = template.getForObject(uri, usd[].class);
 
-		System.out.print(dollar[0].toString());
 	}
 
 }
