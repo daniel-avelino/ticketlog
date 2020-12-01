@@ -26,9 +26,17 @@ public class CidadeService {
 	public void addCidade(Cidade cidade) {
 		repository.save(cidade);
 	}
+	
+	public void addImport(List<Cidade> cidade) {
+		
+	}
 
 	public void deleteCidade(int id) {
 		repository.deleteById(id);
+	}
+	
+	public void importCidade() {
+		
 	}
 
 }

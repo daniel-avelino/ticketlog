@@ -51,15 +51,3 @@ public class EstadoService {
 	}
 
 }
-
-/*
- * Map<String, Double> boulevard = vendas.stream().filter(p ->
- * p.getId().equals("6C237294")) .collect(Collectors.groupingBy(Vendas::getDate,
- * Collectors.summingDouble(Vendas::getSales)));
- * 
- * for (Entry<String, Double> d : boulevard.entrySet()) { Double value =
- * d.getValue(); String date = d.getKey(); b.add(new Vendas(date, value)); }
- * 
- * totalB = vendas.stream().filter(p -> p.getId().equals("6C237294"))
- * .collect(Collectors.summingDouble(Vendas::getSales)); } }
- */

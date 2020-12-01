@@ -25,6 +25,8 @@ public class Cidade implements Serializable {
 
 	private Integer Populacao;
 
+	private Double CustoCidadeUS;
+	
 	@ManyToOne
 	private Estado estado;
 
@@ -45,6 +47,15 @@ public class Cidade implements Serializable {
 	public void setPopulacao(int populacao) {
 		Populacao = populacao;
 	}
+	
+
+	public Double getCustoCidadeUS() {
+		return CustoCidadeUS;
+	}
+
+	public void setCustoCidadeUS(Double custoCidadeUS) {
+		CustoCidadeUS = custoCidadeUS;
+	}
 
 	public Integer getId() {
 		return Id;
@@ -52,6 +63,10 @@ public class Cidade implements Serializable {
 
 	public void setId(Integer id) {
 		Id = id;
+	}
+
+	public void setEstadoId(Integer id) {
+		estado.setId(id);
 	}
 
 	public String getCidade() {
