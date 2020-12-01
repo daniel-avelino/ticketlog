@@ -2,6 +2,7 @@ package com.ticketlogapi.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,11 @@ public class EstadosController {
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<Optional<Estado>> findById(@PathVariable int id) {
 		return ResponseEntity.ok().body(services.findById(id));
+	}
+	
+	@GetMapping(path = "/{id}/cidades")
+	public ResponseEntity<Set<Cidade>> findCidades(@PathVariable int id) {
+		return ResponseEntity.ok().body(services.findAllByEstado(id));
 	}
 
 	@PostMapping

@@ -2,6 +2,7 @@ package com.ticketlogapi.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
@@ -37,6 +38,12 @@ public class EstadoService {
 
 	public void deleteEstado(int id) {
 		repository.deleteById(id);
+	}
+
+	public Set<Cidade> findAllByEstado(int id) {
+		Optional<Estado> estado = repository.findById(id);
+		Set<Cidade> list = estado.get().getCidades();
+		return list;
 	}
 
 	public void sumPopulacao(int id) {

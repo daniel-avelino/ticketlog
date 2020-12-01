@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ticketlogapi.entities.Cidade;
 import com.ticketlogapi.entities.Estado;
 import com.ticketlogapi.services.CidadeService;
+import com.ticketlogapi.services.CustosService;
 import com.ticketlogapi.services.EstadoService;
 
 @RestController
@@ -38,6 +39,9 @@ public class CidadeController {
 
 	@Autowired
 	private EstadoService estadoService;
+
+	@Autowired
+	private CustosService custosService;
 
 	@GetMapping
 	public ResponseEntity<List<Cidade>> findAll() {
@@ -52,7 +56,9 @@ public class CidadeController {
 	@PostMapping
 	public ResponseEntity<Cidade> addCidade(@RequestBody Cidade cidade) {
 		service.addCidade(cidade);
+		custosService.CalculaCusto(cidade.getId());
 		estadoService.sumPopulacao(cidade.getEstadoId());
+		custosService.CustoEstado(cidade.getId());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
@@ -61,6 +67,5 @@ public class CidadeController {
 		service.deleteCidade(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-
 
 }

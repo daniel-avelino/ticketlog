@@ -1,5 +1,8 @@
 package com.ticketlogapi.services;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,12 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.ticketlogapi.entities.Cidade;
+import com.ticketlogapi.entities.Estado;
 
 @Service
 public class CustosService {
-
-	@Autowired
-	private CidadeService cidadeService;
 
 	private final double porPessoa = 123.45;
 
@@ -20,12 +21,30 @@ public class CustosService {
 
 	private final int valorCorte = 50000;
 
+	@Autowired
+	private CidadeService cidadeService;
+
+	@Autowired
+	private EstadoService estadoService;
+
 	public void CalculaCusto(int id) {
 		Cidade cidade = cidadeService.findById(id).orElseThrow(() -> new EntityNotFoundException());
 
 		cidade.setCustoCidadeUS(verificaCustos(cidade));
 
 		cidadeService.addCidade(cidade);
+	}
+
+	public void CustoEstado(int id) {
+
+		Estado estado = estadoService.findById(id).orElseThrow(() -> new EntityNotFoundException());
+		List<Cidade> list = cidadeService.findAll();
+		double custoTotal = list.stream().filter(p -> p.getEstadoId().equals(id))
+				.collect(Collectors.summingDouble(Cidade::getCustoCidadeUS));
+		System.out.println(custoTotal);
+		estado.setCustoEstado(custoTotal);
+		estadoService.addEstado(estado);
+
 	}
 
 	public Double verificaCustos(Cidade cidade) {

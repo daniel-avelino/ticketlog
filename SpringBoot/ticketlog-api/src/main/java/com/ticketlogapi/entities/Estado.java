@@ -25,6 +25,8 @@ public class Estado implements Serializable {
 
 	private String estado;
 
+	private Double custoEstado;
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "estado", cascade = CascadeType.ALL)
 	private Set<Cidade> cidades;
@@ -52,6 +54,14 @@ public class Estado implements Serializable {
 	public Estado(Integer id, String estado) {
 		Id = id;
 		this.estado = estado;
+	}
+
+	public Double getCustoEstado() {
+		return custoEstado;
+	}
+
+	public void setCustoEstado(Double custoEstado) {
+		this.custoEstado = custoEstado;
 	}
 
 	public Integer getId() {
