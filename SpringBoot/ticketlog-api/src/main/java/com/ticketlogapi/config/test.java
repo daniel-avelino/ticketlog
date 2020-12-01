@@ -15,7 +15,7 @@ import com.ticketlogapi.entities.Estado;
 import com.ticketlogapi.services.usd;
 
 @Configuration
-@Profile("prod")
+@Profile("dev")
 public class test implements CommandLineRunner {
 
 	@Autowired
