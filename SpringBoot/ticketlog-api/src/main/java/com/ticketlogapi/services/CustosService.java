@@ -29,7 +29,6 @@ public class CustosService {
 
 	public void CalculaCusto(int id) {
 		Cidade cidade = cidadeService.findById(id).orElseThrow(() -> new EntityNotFoundException());
-
 		cidade.setCustoCidadeUS(verificaCustos(cidade));
 
 		cidadeService.addCidade(cidade);

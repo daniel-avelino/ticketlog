@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ticketlogapi.entities.Cidade;
 import com.ticketlogapi.entities.Estado;
+import com.ticketlogapi.services.CidadeService;
+import com.ticketlogapi.services.CustosService;
 import com.ticketlogapi.services.EstadoService;
 
 @RestController
@@ -26,6 +30,12 @@ public class EstadosController {
 
 	@Autowired
 	private EstadoService services;
+
+	@Autowired
+	private CidadeService cidadeService;
+
+	@Autowired
+	private CustosService custosService;
 
 	@GetMapping
 	public ResponseEntity<List<Estado>> findAll() {
@@ -36,7 +46,7 @@ public class EstadosController {
 	public ResponseEntity<Optional<Estado>> findById(@PathVariable int id) {
 		return ResponseEntity.ok().body(services.findById(id));
 	}
-	
+
 	@GetMapping(path = "/{id}/cidades")
 	public ResponseEntity<Set<Cidade>> findCidades(@PathVariable int id) {
 		return ResponseEntity.ok().body(services.findAllByEstado(id));
@@ -48,9 +58,14 @@ public class EstadosController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<Estado> deleteById(@PathVariable int id) {
-		services.deleteEstado(id);
+	@PostMapping(path = "{id}/cidades")
+	public ResponseEntity<Cidade> addCidade(@PathVariable int id, @RequestBody Cidade cidade) {
+		Estado estado = services.findById(id).orElseThrow(() -> new EntityNotFoundException());
+		cidade.setEstado(estado);
+		cidadeService.addCidade(cidade);
+		custosService.CalculaCusto(cidade.getId());
+		services.sumPopulacao(cidade.getEstadoId());
+		custosService.CustoEstado(estado.getId());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
