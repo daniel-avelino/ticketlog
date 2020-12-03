@@ -1,5 +1,7 @@
 package com.ticketlogapi.services;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,8 +29,10 @@ public class CustosService {
 	@Autowired
 	private EstadoService estadoService;
 
+
 	public void CalculaCusto(int id) {
 		Cidade cidade = cidadeService.findById(id).orElseThrow(() -> new EntityNotFoundException());
+
 		cidade.setCustoCidadeUS(verificaCustos(cidade));
 
 		cidadeService.addCidade(cidade);

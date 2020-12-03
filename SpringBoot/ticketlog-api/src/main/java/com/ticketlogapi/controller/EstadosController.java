@@ -9,14 +9,13 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.handler.ResponseStatusExceptionHandler;
 
 import com.ticketlogapi.entities.Cidade;
 import com.ticketlogapi.entities.Estado;
@@ -44,11 +43,15 @@ public class EstadosController {
 
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<Optional<Estado>> findById(@PathVariable int id) {
+		custosService.CustoEstado(id);
 		return ResponseEntity.ok().body(services.findById(id));
 	}
 
 	@GetMapping(path = "/{id}/cidades")
 	public ResponseEntity<Set<Cidade>> findCidades(@PathVariable int id) {
+		Estado estado = services.findById(id).orElseThrow(() -> new EntityNotFoundException());
+		custosService.CalculaCusto(id);
+		custosService.CustoEstado(estado.getId());
 		return ResponseEntity.ok().body(services.findAllByEstado(id));
 	}
 
@@ -61,12 +64,23 @@ public class EstadosController {
 	@PostMapping(path = "{id}/cidades")
 	public ResponseEntity<Cidade> addCidade(@PathVariable int id, @RequestBody Cidade cidade) {
 		Estado estado = services.findById(id).orElseThrow(() -> new EntityNotFoundException());
-		cidade.setEstado(estado);
-		cidadeService.addCidade(cidade);
-		custosService.CalculaCusto(cidade.getId());
-		services.sumPopulacao(cidade.getEstadoId());
-		custosService.CustoEstado(estado.getId());
-		return new ResponseEntity<>(HttpStatus.OK);
+
+		if (cidadeService.cidadeDuplicada(cidade.getCidade())) {
+			return new ResponseEntity<Cidade>(HttpStatus.NOT_ACCEPTABLE);
+		}
+
+		else {
+			
+			cidade.setEstado(estado);
+			cidadeService.addCidade(cidade);
+			custosService.CalculaCusto(cidade.getId());
+			services.sumPopulacao(cidade.getEstadoId());
+
+			custosService.CustoEstado(estado.getId());
+
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+
 	}
 
 }
