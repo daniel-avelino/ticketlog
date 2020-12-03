@@ -29,7 +29,6 @@ public class CustosService {
 	@Autowired
 	private EstadoService estadoService;
 
-
 	public void CalculaCusto(int id) {
 		Cidade cidade = cidadeService.findById(id).orElseThrow(() -> new EntityNotFoundException());
 

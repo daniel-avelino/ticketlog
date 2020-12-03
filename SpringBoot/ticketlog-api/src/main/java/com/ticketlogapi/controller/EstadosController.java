@@ -67,10 +67,8 @@ public class EstadosController {
 
 		if (cidadeService.cidadeDuplicada(cidade.getCidade())) {
 			return new ResponseEntity<Cidade>(HttpStatus.NOT_ACCEPTABLE);
-		}
+		} else {
 
-		else {
-			
 			cidade.setEstado(estado);
 			cidadeService.addCidade(cidade);
 			custosService.CalculaCusto(cidade.getId());
